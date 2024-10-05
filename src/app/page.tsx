@@ -5,13 +5,13 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Button } from "@/components/ui/button"
 import { fetchUserData } from '@/app/actions'
-import { userData, userInfo } from '@/definitions'
+import { userInfo } from '@/definitions'
 import { ThreeColumnGrid } from '@/components/ui/threecolumngrid'
 
 
 export default function Component() {
   const [username, setUsername] = useState('')
-  const [userData, setUserData] = useState<userData | null>(null);
+  // const [userData, setUserData] = useState<userData | null>(null);
 
   const [userInfo, setUserInfo] = useState<userInfo | null>(null)
 
@@ -21,12 +21,12 @@ export default function Component() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     setError('')
-    setUserData(null)
+    // setUserData(null)
 
     startTransition(async () => {
       try {
         const result = await fetchUserData(username)
-        setUserData(result)
+        // setUserData(result)
         setUserInfo([
           { name: "Handle", value: result.handle },
           { name: "Name", value: result.Name },
