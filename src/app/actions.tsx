@@ -1,6 +1,7 @@
 'use server'
 
 import { userData } from "@/definitions";
+import { Submission } from "@/definitions";
 
 export async function fetchUserData(username: string): Promise<userData> {
     const url = `https://codeforces.com/api/user.info?handles=${username}`
@@ -30,6 +31,28 @@ export async function fetchUserData(username: string): Promise<userData> {
         }
     } catch (error) {
         console.error('Failed to fetch user data:', error)
+        throw error;
+    }
+}
+
+export async function fetchUserSubmissions(username: string): Promise<Submission[]> {
+    const url = `https://codeforces.com/api/user.status?handle=${username}`
+
+    try {
+        const response = await fetch(url);
+
+        if (!response.ok) {
+            throw new Error(`Error: ${response.statusText}`);
+        }
+
+        const data = await response.json();
+        if (data.status == "OK") {
+            return data.result;
+        } else {
+            throw new Error("Failed to fetch user submissions:" + data.comment);
+        }
+    } catch (error) {
+        console.error('Failed to fetch user submissions:', error)
         throw error;
     }
 }
